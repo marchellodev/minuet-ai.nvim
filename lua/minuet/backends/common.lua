@@ -167,10 +167,20 @@ function M.complete_openai_fim_base(options, get_text_fn, context_before_cursor,
 
     local language = utils.add_language_comment()
     local tab = utils.add_tab_comment()
-    context_before_cursor = language .. '\n' .. tab .. '\n' .. context_before_cursor
+    -- context_before_cursor = language .. '\n' .. tab .. '\n' .. context_before_cursor
 
-    data.prompt = context_before_cursor
-    data.suffix = context_after_cursor
+    -- data.prompt = context_before_cursor
+    -- data.suffix = context_after_cursor
+
+    data.prompt = '<|fim_prefix|>'
+        .. language
+        .. '\n'
+        .. tab
+        .. '\n'
+        .. context_before_cursor
+        .. '<|fim_suffix|>'
+        .. context_after_cursor
+        .. '<|fim_middle|>'
 
     local data_file = utils.make_tmp_file(data)
 
@@ -232,3 +242,4 @@ function M.complete_openai_fim_base(options, get_text_fn, context_before_cursor,
 end
 
 return M
+
